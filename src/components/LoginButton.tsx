@@ -1,8 +1,7 @@
 export default function LoginButton() {
-    return (
-    <button className="bg-teal -600 text-white px-4 py-2
-    rounded -lg hover:bg-teal -700 transition">
-    Se connecter
-    </button >
-    );
-    }
+  return (
+    <button className="rounded-lg bg-teal-600 px-4 py-2 text-white transition hover:bg-teal-700">
+      Se connecter
+    </button>
+  );
+}
