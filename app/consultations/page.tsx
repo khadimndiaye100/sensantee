@@ -1,5 +1,4 @@
-import ConsultationCard
-from "@/src/components/ConsultationCard";
+import ConsultationCard from "@/components/ConsultationCard";
 export default function ConsultationsPage() {
   return (
     <div>
