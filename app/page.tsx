@@ -1,8 +1,8 @@
-import PatientCard from "@/src/components/PatientCard";
-import ConsultationCard from "@/src/components/ConsultationCard";
-import AlerteIA from "@/src/components/AlerteIA";
-import StatCard from "@/src/components/StatCard";
-import LoginButton from "@/src/components/LoginButton";
+import PatientCard from "@/components/PatientCard";
+import ConsultationCard from "@/components/ConsultationCard";
+import AlerteIA from "@/components/AlerteIA";
+import StatCard from "@/components/StatCard";
+import LoginButton from "@/components/LoginButton";
 
 export default function Home() {
   return (

@@ -1,4 +1,4 @@
-import AlerteIA from "@/src/components/AlerteIA";
+import AlerteIA from "@/components/AlerteIA";
 export default function IAPage() {
   return (
     <div>
