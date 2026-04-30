@@ -21,6 +21,7 @@ model Patient {
   telephone     String?
   adresse       String?
   region        String
+  consultations Consultation[]
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 }
@@ -32,6 +33,28 @@ model User {
   email     String   @unique
   password  String
   role      String   @default("user")
+  consultations Consultation[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Consultation {
+  id        String   @id @default(cuid())
+  date      DateTime @default(now())
+  symptomes String
+  notes     String?
+  statut    String   @default("en_attente")
+
+  patientId String
+  patient   Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([patientId])
+  @@index([userId])
+  @@index([date])
 }
