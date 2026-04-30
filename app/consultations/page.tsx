@@ -3,11 +3,11 @@ import { useEffect, useState } from "react";
 import ConsultationForm from "@/components/ConsultationForm";
 
 interface Consultation {
-  id: number;
+  id: string;
   date: string;
   symptomes: string[];
-  diagnosticIa: string | null;
-  confiance: number | null;
+  diagnosticIa?: string | null;
+  confiance?: number | null;
   statut: string;
   notes: string | null;
   patient: {
@@ -20,14 +20,35 @@ interface Consultation {
 export default function ConsultationsPage() {
   const [consultations, setConsultations] = useState<Consultation[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   async function charger() {
+    setLoading(true);
+    setError(null);
     try {
       const res = await fetch("/api/consultations");
       const data = await res.json();
-      setConsultations(data);
+      if (!res.ok) {
+        const message =
+          typeof (data as any)?.error === "string"
+            ? (data as any).error
+            : "Erreur lors du chargement des consultations";
+        setConsultations([]);
+        setError(message);
+        return;
+      }
+
+      if (!Array.isArray(data)) {
+        setConsultations([]);
+        setError("Réponse invalide du serveur");
+        return;
+      }
+
+      setConsultations(data as Consultation[]);
     } catch (error) {
       console.error("Erreur lors du chargement:", error);
+      setConsultations([]);
+      setError("Erreur de connexion au serveur");
     } finally {
       setLoading(false);
     }
@@ -52,6 +73,10 @@ export default function ConsultationsPage() {
       {loading ? (
         <p className="text-gray-500">
           Chargement...
+        </p>
+      ) : error ? (
+        <p className="text-red-600">
+          {error}
         </p>
       ) : consultations.length === 0 ? (
         <p className="text-gray-500">
@@ -80,7 +105,7 @@ export default function ConsultationsPage() {
               </div>
 
               <div className="flex flex-wrap gap-2 mt-3">
-                {(c.symptomes as string[]).map((s, i) => (
+                {(Array.isArray(c.symptomes) ? c.symptomes : []).map((s, i) => (
                   <span key={i} className="bg-orange-50 text-orange-700 text-xs px-2 py-1 rounded-full">
                     {s}
                   </span>
@@ -99,7 +124,7 @@ export default function ConsultationsPage() {
                     Diagnostic IA : {c.diagnosticIa}
                   </p>
                   <p className="text-xs text-gray-500">
-                    Confiance : {c.confiance}%
+                    Confiance : {c.confiance ?? "—"}%
                   </p>
                 </div>
               ) : (

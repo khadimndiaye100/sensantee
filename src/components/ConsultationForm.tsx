@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 
 interface Patient {
-  id: number;
+  id: string;
   nom: string;
   prenom: string;
   region: string;
@@ -53,7 +53,7 @@ export default function ConsultationForm({ onSuccess }: { onSuccess: () => void 
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          patientId: Number(formData.get("patientId")),
+          patientId: String(formData.get("patientId")),
           symptomes: symptomes,
           notes: formData.get("notes"),
         }),

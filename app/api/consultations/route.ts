@@ -6,12 +6,9 @@ import { NextResponse } from "next/server";
 // GET /api/consultations
 export async function GET() {
   const session = await getServerSession(authOptions);
-  
+
   if (!session) {
-    return NextResponse.json(
-      { error: "Non autorisé" },
-      { status: 401 }
-    );
+    return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
   }
 
   try {
@@ -34,7 +31,7 @@ export async function GET() {
     console.error("Erreur GET consultations:", error);
     return NextResponse.json(
       { error: "Erreur lors de la récupération des consultations" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -42,54 +39,42 @@ export async function GET() {
 // POST /api/consultations
 export async function POST(request: Request) {
   const session = await getServerSession(authOptions);
-  
+
   if (!session) {
-    return NextResponse.json(
-      { error: "Non autorisé" },
-      { status: 401 }
-    );
+    return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
   }
 
   try {
     const body = await request.json();
 
-    // Validation des champs requis
     if (!body.patientId) {
       return NextResponse.json(
         { error: "L'ID du patient est requis" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     if (!body.symptomes) {
       return NextResponse.json(
         { error: "Les symptômes sont requis" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
-    // Récupérer l'id de l'agent connecté
     const user = await prisma.user.findUnique({
       where: { email: session.user?.email! },
     });
 
     if (!user) {
-      return NextResponse.json(
-        { error: "Utilisateur non trouvé" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Utilisateur non trouvé" }, { status: 404 });
     }
 
-    // Vérifier si le patient existe
     const patient = await prisma.patient.findUnique({
       where: { id: body.patientId },
     });
 
     if (!patient) {
-      return NextResponse.json(
-        { error: "Patient non trouvé" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Patient non trouvé" }, { status: 404 });
     }
 
     const consultation = await prisma.consultation.create({
@@ -100,7 +85,7 @@ export async function POST(request: Request) {
         notes: body.notes || null,
         statut: "en_attente",
       },
-      include: { 
+      include: {
         patient: true,
         user: {
           select: {
@@ -112,12 +97,12 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json(consultation, { status: 201 });
-    
   } catch (error) {
     console.error("Erreur POST consultation:", error);
     return NextResponse.json(
       { error: "Erreur lors de la création de la consultation" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
+
