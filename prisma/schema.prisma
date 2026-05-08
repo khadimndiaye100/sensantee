@@ -45,6 +45,11 @@ model Consultation {
   notes     String?
   statut    String   @default("en_attente")
 
+  diagnosticIa   String?
+  confiance      Float?
+  recommandation String?
+  urgence        String?
+
   patientId String
   patient   Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
 

@@ -12,6 +12,12 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Fichiers générés automatiquement — ne pas linter
+    "src/generated/**",
+    // Fichiers temporaires
+    "tmp-*.js",
+    "check-*.ts",
+    "create-*.ts",
   ]),
 ]);
 

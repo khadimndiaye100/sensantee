@@ -60,27 +60,27 @@ export default function PatientForm({
           name="nom" 
           placeholder="Nom"
           required
-          className="p-3 border rounded-lg" 
+          className="p-3 border rounded-lg text-gray-800" 
         />
         
         <input 
           name="prenom" 
           placeholder="Prénom"
           required
-          className="p-3 border rounded-lg" 
+          className="p-3 border rounded-lg text-gray-800" 
         />
         
         <input 
           name="dateNaissance" 
           type="date"
           required
-          className="p-3 border rounded-lg" 
+          className="p-3 border rounded-lg text-gray-800" 
         />
         
         <select 
           name="sexe" 
           required
-          className="p-3 border rounded-lg"
+          className="p-3 border rounded-lg text-gray-800"
         >
           <option value="">Sexe</option>
           <option value="F">Femme</option>
@@ -90,13 +90,13 @@ export default function PatientForm({
         <input 
           name="telephone"
           placeholder="Téléphone (optionnel)"
-          className="p-3 border rounded-lg" 
+          className="p-3 border rounded-lg text-gray-800" 
         />
         
         <select 
           name="region" 
           required
-          className="p-3 border rounded-lg"
+          className="p-3 border rounded-lg text-gray-800"
         >
           <option value="">Région</option>
           {regions.map((r) => (
@@ -108,7 +108,7 @@ export default function PatientForm({
       <input 
         name="adresse"
         placeholder="Adresse (optionnel)"
-        className="w-full p-3 border rounded-lg" 
+        className="w-full p-3 border rounded-lg text-gray-800" 
       />
       
       <button 
