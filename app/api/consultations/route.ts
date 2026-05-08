@@ -61,8 +61,13 @@ export async function POST(request: Request) {
       );
     }
 
+    const userEmail = session.user?.email;
+    if (!userEmail) {
+      return NextResponse.json({ error: "Session invalide" }, { status: 401 });
+    }
+
     const user = await prisma.user.findUnique({
-      where: { email: session.user?.email! },
+      where: { email: userEmail },
     });
 
     if (!user) {
